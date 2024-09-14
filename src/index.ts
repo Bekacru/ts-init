@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { Command } from "commander";
 import prompt from "prompts";
 import fs from 'fs/promises';
