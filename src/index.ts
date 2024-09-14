@@ -5,52 +5,67 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const init = new Command()
-    .name("init")
+    .name("")
     .description("Initialize a TypeScript project")
     .action(async () => {
-        const options = await prompt([
-            {
-                type: "text",
-                name: "projectName",
-                message: "What is the name of your project?",
-                initial: ".",
-            },
-            {
-                type: "select",
-                name: "strictness",
-                message: "How strict should the typescript compiler be?",
-                choices: [
-                    { title: "Relaxed (Few checks)", value: "off" },
-                    { title: "Balanced (Recommended)", value: "on" },
-                    { title: "Rigorous (Maximum safety)", value: "strict" },
-                ],
-                initial: 1,
-            },
-            {
-                type: "confirm",
-                name: "isTranspiler",
-                message: "Are you transpiling using tsc?",
-                initial: true,
-            },
-            {
-                type: "confirm",
-                name: "isLibrary",
-                message: "Are you building a library?",
-                initial: false,
-            },
-            {
-                type: "confirm",
-                name: "isMonorepo",
-                message: "Are you building for a library in a monorepo?",
-                initial: false,
-            },
-            {
-                type: "confirm",
-                name: "isDom",
-                message: "Is your project for a dom (browser) environment?",
-                initial: false,
-            },
-        ]);
+        let options;
+        try {
+            options = await prompt([
+                {
+                    type: "text",
+                    name: "projectName",
+                    message: "What is the name of your project?",
+                    initial: ".",
+                },
+                {
+                    type: "select",
+                    name: "strictness",
+                    message: "How strict should the typescript compiler be?",
+                    choices: [
+                        { title: "Relaxed (Few checks)", value: "off" },
+                        { title: "Balanced (Recommended)", value: "on" },
+                        { title: "Rigorous (Maximum safety)", value: "strict" },
+                    ],
+                    initial: 1,
+                },
+                {
+                    type: "confirm",
+                    name: "isTranspiler",
+                    message: "Are you transpiling using tsc?",
+                    initial: true,
+                },
+                {
+                    type: "confirm",
+                    name: "isLibrary",
+                    message: "Are you building a library?",
+                    initial: false,
+                },
+                {
+                    type: "confirm",
+                    name: "isMonorepo",
+                    message: "Are you building for a library in a monorepo?",
+                    initial: false,
+                },
+                {
+                    type: "confirm",
+                    name: "isDom",
+                    message: "Is your project for a dom (browser) environment?",
+                    initial: false,
+                },
+            ], {
+                onCancel: () => {
+                    throw new Error('Operation cancelled');
+                }
+            });
+        } catch (error) {
+            console.log('Operation cancelled');
+            process.exit(0);
+        }
+
+        if (!options || Object.keys(options).length === 0) {
+            console.log('Operation cancelled');
+            process.exit(0);
+        }
 
         const projectDir = options.projectName === "." ? process.cwd() : path.join(process.cwd(), options.projectName);
 
@@ -62,6 +77,7 @@ const init = new Command()
             console.log(`tsconfig.json has been generated in ${projectDir}`);
         } catch (error) {
             console.error('Error creating project files:', error);
+            process.exit(1);
         }
     });
 
@@ -126,9 +142,7 @@ function generateTsConfig(options: {
 }
 
 function main() {
-    const program = new Command();
-    program.addCommand(init);
-    program.parse(process.argv);
+    init.parse(process.argv);
 }
 
 main();
