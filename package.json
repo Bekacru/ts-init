@@ -1,7 +1,7 @@
 {
   "name": "ts-init",
   "module": "dist/index.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/index.js",
   "type": "module",
   "bin": "./dist/index.js",
@@ -9,7 +9,7 @@
     "dev": "bun run src/index.ts",
     "watch": "bun build ./src/index.ts --outdir=./dist --watch",
     "build": "bun run build.ts",
-    "release": "bun run build && bumpp && bun publish --access public --no-git-checks"
+    "release": "bun run build && bumpp && npm publish --access public --no-git-checks"
   },
   "devDependencies": {
     "@types/bun": "latest"
