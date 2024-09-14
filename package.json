@@ -6,7 +6,7 @@
   "type": "module",
   "bin": "./dist/index.js",
   "scripts": {
-    "dev": "bun run src/index.ts",
+    "dev": "bun run ./src/index.ts",
     "watch": "bun build ./src/index.ts --outdir=./dist --watch",
     "build": "bun run build.ts",
     "release": "bun run build && bumpp && npm publish --access public --no-git-checks"
