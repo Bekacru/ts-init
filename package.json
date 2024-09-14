@@ -1,7 +1,7 @@
 {
-  "name": "@ts-config/init",
+  "name": "@bekacru/init",
   "module": "dist/index.js",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "dist/index.js",
   "type": "module",
   "bin": "./dist/index.js",
