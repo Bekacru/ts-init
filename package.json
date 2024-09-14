@@ -1,7 +1,7 @@
 {
   "name": "ts-init",
   "module": "dist/index.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "type": "module",
   "bin": "./dist/index.js",
